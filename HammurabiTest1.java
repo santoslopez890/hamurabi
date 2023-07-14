@@ -2,10 +2,11 @@ package hammurabi;
 
 import static org.junit.Assert.*;
 
+import hammurabi.docs.Hammurabi;
 import org.junit.Before;
 import org.junit.Test;
 
-public class HammurabiTest {
+public class HammurabiTest1 extends Hammurabi {
     
     Hammurabi ham;
     
