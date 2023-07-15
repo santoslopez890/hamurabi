@@ -5,7 +5,7 @@ import java.util.Random;         // imports go here
 import java.util.Scanner;
 
 public class TempClass {
-    static int totalDeaths = 0, percentDied = 0,acres=1000, year = 0, population = 95, stores = 2800, immigrants = 5, deaths,
+    static int totalDeaths = 0, percentDied = 0,acres=1000, year = 0, population = 95, stores = 2800, immigrants = 0, deaths,
             harvest = 3000, yeild = 3, /*acres = harvest / yeild*/ /*eaten = harvest - stores*/eaten=0, landPrice=19, fullPeople, temp;
     static boolean plague = false;
     final static String FINK = "DUE TO THIS EXTREME MISMANAGEMENT YOU HAVE NOT ONLY\n" +
@@ -25,21 +25,18 @@ public class TempClass {
         for (int i = 1; i <= 10; i++) {
             uprising(population,deaths);
             plagueDeaths(population);
+            immigrants(population,acres,stores);
             report();
 
             askHowManyAcresToBuy(landPrice,stores);
             askHowManyAcresToSell(acres);
             askHowMuchGrainToFeedPeople(stores);
             askHowManyAcresToPlant(acres,population,stores);
-            if (temp % 2 != 1)
-                eaten = (stores / temp);
-            else
-                eaten = 0;
-            stores += (harvest - eaten);
-            immigrants = (int) (Math.random() * 5 + 1) *
-                    (20 * acres + stores) / population / 100 + 1;
-
+            //if seed mod 2 != 1
+            harvest(acres,stores);
             starvationDeaths(population,deaths);
+            grainEatenByRats(stores);
+            newCostOfLand();
         }
 
 
@@ -48,8 +45,6 @@ public class TempClass {
 
 
         int askHowManyAcresToBuy(int price, int bushels){
-
-
             do {
                 System.out.print("HOW MANY ACRES DO YOU WISH TO BUY?  ");
                 temp = scanner.nextInt();
@@ -124,7 +119,8 @@ public class TempClass {
         System.exit(0);
     }
     public static String report() {
-        String answer = "\nHAMURABI:  I BEG TO REPORT TO YOU,\n" +
+
+        String answer = "\nHammurabi:  I BEG TO REPORT TO YOU,\n" +
                 "IN YEAR " + year + ", " + deaths + " PEOPLE STARVED, " + immigrants + " CAME TO THE CITY.\n";
 
         if (plague) {
@@ -182,15 +178,34 @@ public class TempClass {
         return immigrants;
     }
 
-    public int harvest(int i) {
+    public int harvest(int acres, int bushelsUsedAsSeed) {
+        if (temp % 2 != 1)
+            eaten = (stores / temp);
+        else
+            eaten = 0;
+        stores += (harvest - eaten);
+        yeild= (rand.nextInt(5) + 1);
         return 0;
     }
 
     public int grainEatenByRats(int i) {
+        int max=30;
+        int min=10;
+        int random= (rand.nextInt(99) + 1) ;
+        if(random <= 45){
+            random= rand.nextInt(max - min + 1) + min;
+            stores /= random;
+        }
         return 0;
     }
 
     public int newCostOfLand() {
+        int random=0;
+        int max=23;
+        int min=17;
+        random= rand.nextInt(max - min + 1) + min;
+        landPrice=random;
+
         return 0;
     }
 
