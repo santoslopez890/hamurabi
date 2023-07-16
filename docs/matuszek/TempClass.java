@@ -1,11 +1,12 @@
 package hammurabi.docs.matuszek;               // package declaration
 import hammurabi.docs.Hammurabi;
 
+import java.util.InputMismatchException;
 import java.util.Random;         // imports go here
 import java.util.Scanner;
 
 public class TempClass {
-    static int totalDeaths = 0, percentDied = 0,acres=1000, year = 0, population = 95, stores = 2800, immigrants = 0, deaths,
+    static int totalDeaths = 0, percentDied = 0,acres=1000, year = 0, population = 95, stores = 2800, immigrants = 5, deaths,
             harvest = 3000, yeild = 3, /*acres = harvest / yeild*/ /*eaten = harvest - stores*/eaten=0, landPrice=19, fullPeople, temp;
     static boolean plague = false;
     final static String FINK = "DUE TO THIS EXTREME MISMANAGEMENT YOU HAVE NOT ONLY\n" +
@@ -25,17 +26,17 @@ public class TempClass {
         for (int i = 1; i <= 10; i++) {
             uprising(population,deaths);
             plagueDeaths(population);
-            immigrants(population,acres,stores);
-            report();
 
+            printSummary();
+            immigrants(population,acres,stores);
             askHowManyAcresToBuy(landPrice,stores);
             askHowManyAcresToSell(acres);
             askHowMuchGrainToFeedPeople(stores);
             askHowManyAcresToPlant(acres,population,stores);
             //if seed mod 2 != 1
+            grainEatenByRats(stores);
             harvest(acres,stores);
             starvationDeaths(population,deaths);
-            grainEatenByRats(stores);
             newCostOfLand();
         }
 
@@ -58,7 +59,7 @@ public class TempClass {
             stores -= temp * landPrice;
             return temp;
         }
-        int askHowManyAcresToSell(int acres){
+        int askHowManyAcresToSell(int acress){
 
             do {
                 System.out.print("HOW MANY ACRES DO YOU WISH TO SELL?  ");
@@ -118,7 +119,7 @@ public class TempClass {
         System.out.println(reason);
         System.exit(0);
     }
-    public static String report() {
+    public static String printSummary() {
 
         String answer = "\nHammurabi:  I BEG TO REPORT TO YOU,\n" +
                 "IN YEAR " + year + ", " + deaths + " PEOPLE STARVED, " + immigrants + " CAME TO THE CITY.\n";
@@ -179,11 +180,7 @@ public class TempClass {
     }
 
     public int harvest(int acres, int bushelsUsedAsSeed) {
-        if (temp % 2 != 1)
-            eaten = (stores / temp);
-        else
-            eaten = 0;
-        stores += (harvest - eaten);
+
         yeild= (rand.nextInt(5) + 1);
         return 0;
     }
@@ -194,19 +191,32 @@ public class TempClass {
         int random= (rand.nextInt(99) + 1) ;
         if(random <= 45){
             random= rand.nextInt(max - min + 1) + min;
+            eaten = (stores /= random);
             stores /= random;
+
         }
         return 0;
     }
 
     public int newCostOfLand() {
-        int random=0;
+        int random;
         int max=23;
         int min=17;
         random= rand.nextInt(max - min + 1) + min;
         landPrice=random;
 
         return 0;
+    }
+    int getNumber(String message) {
+        while (true) {
+            System.out.print(message);
+            try {
+                return scanner.nextInt();
+            }
+            catch (InputMismatchException e) {
+                System.out.println("\"" + scanner.next() + "\" isn't a number!");
+            }
+        }
     }
 
 
