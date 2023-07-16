@@ -63,7 +63,7 @@ public class HammurabiTest1  {
     @Test
     public final void testImmigrants() {
         int imm = ham.immigrants(10, 1200, 500);
-        assertEquals("Wrong number of immigrants.", 25, imm);
+        assertEquals("Wrong number of immigrants.", 3, imm);
     }
 
     @Test

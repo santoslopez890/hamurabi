@@ -12,6 +12,7 @@ import java.util.Random;
 // (how the hell would you ever be able to TEST this piece of code?)
 //
 public class Hammurabi {
+	Random rand = new Random();
 	static int totalDeaths = 0, percentDied = 0, year = 0, population = 95, stores = 2800, immigrants = 5, deaths,
 		harvest = 3000, yeild = 3, acres = harvest / yeild, eaten = harvest - stores, landPrice, fullPeople, temp;
 	static boolean plague = false;
@@ -159,15 +160,41 @@ public class Hammurabi {
 
 	public int plagueDeaths(int i) {
 
-		return 0;
+
+		deaths=0;
+
+		int random= (rand.nextInt(99) + 1) ;
+		if(random<=15){
+			plague=true;
+			deaths+=i/=2;
+		}
+		else{
+			plague=false;
+		}
+
+		return deaths;
 	}
 
-	public int starvationDeaths(int i, int i1) {
-		return 0;
+
+	public int starvationDeaths(int populations, int stores) {
+		int peopleStarved=0;
+		int fullPeople=stores/20;
+
+		if(fullPeople<populations){
+			peopleStarved =populations-fullPeople;
+		}
+		return peopleStarved;
+
 	}
 
-	public boolean uprising(int i, int i1) {
-		return false;
+	public boolean uprising(int population, int peopleStarved) {
+		boolean uprising=false;
+		if (peopleStarved > .45 * population) {
+
+			uprising=true;
+		}
+
+		return uprising;
 	}
 
 	public int immigrants(int i, int i1, int i2) {
@@ -178,14 +205,27 @@ public class Hammurabi {
 	}
 
 	public int harvest(int i) {
-		return 0;
+		i= (rand.nextInt(6) + 1);
+		return i;
 	}
 
 	public int grainEatenByRats(int i) {
-		return 0;
+		int grainEaten=0;
+
+		if(rand.nextInt(100) <= 40){
+			grainEaten = (int) (i*(rand.nextDouble()/5+.1));
+
+		}
+		return grainEaten;
 	}
 
 	public int newCostOfLand() {
-		return 0;
+		int random;
+		int max=23;
+		int min=17;
+		random= rand.nextInt(max - min + 1) + min;
+		landPrice=random;
+
+		return landPrice;
 	}
 }

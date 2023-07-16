@@ -23,6 +23,7 @@ public class TempClass {
 
     public void playGame() {
 
+
         for (int i = 1; i <= 10; i++) {
             uprising(population,deaths);
             plagueDeaths(population);
@@ -35,7 +36,7 @@ public class TempClass {
             askHowManyAcresToPlant(acres,population,stores);
             //if seed mod 2 != 1
             grainEatenByRats(stores);
-            harvest(acres,stores);
+            harvest(acres);
             starvationDeaths(population,deaths);
             newCostOfLand();
         }
@@ -50,7 +51,7 @@ public class TempClass {
                 System.out.print("HOW MANY ACRES DO YOU WISH TO BUY?  ");
                 temp = scanner.nextInt();
                 if (temp < 0)
-                    epicFail(0);
+                    epicFail(true);
                 if (temp * landPrice > stores)
                     System.out.println("HAMURABI:  THINK AGAIN. YOU HAVE ONLY\n" +
                             stores + " BUSHELS OF GRAIN. NOW THEN,");
@@ -66,7 +67,7 @@ public class TempClass {
 
                 temp = scanner.nextInt();
                 if (temp < 0)
-                    epicFail(0);
+                    epicFail(true);
                 if (temp > acres)
                     System.out.println("HAMURABI:  THINK AGAIN. YOU OWN ONLY " + acres + " ACRES. NOW THEN,");
             } while (temp > acres);
@@ -80,7 +81,7 @@ public class TempClass {
                 System.out.print("\nHOW MANY BUSHELS DO YOU WISH TO FEED YOUR PEOPLE?  ");
                 temp = scanner.nextInt();
                 if (temp < 0)
-                    epicFail(0);
+                    epicFail(true);
                 if (temp > stores)
                     System.out.println("HAMURABI:  THINK AGAIN. YOU HAVE ONLY\n" +
                             stores + " BUSHELS OF GRAIN. NOW THEN,");
@@ -95,7 +96,7 @@ public class TempClass {
                 System.out.print("\nHOW MANY ACRES DO YOU WISH TO PLANT WITH SEED?  ");
                 temp = scanner.nextInt();
                 if (temp < 0)
-                    epicFail(0);
+                    epicFail(true);
                 if (temp > acres)
                     System.out.println("HAMURABI:  THINK AGAIN. YOU OWN ONLY " + acres + " ACRES. NOW THEN,");
                 if (temp / 2 > stores)
@@ -108,13 +109,15 @@ public class TempClass {
 
             return temp;
         }
-    public static void epicFail(int x) {
+    public static void epicFail(boolean x) {
         String reason = "";
-        switch (x) {
-            case 0: reason = "HAMURABI:  I CANNOT DO WHAT YOU WISH.\n" +
-                    "GET YOURSELF ANOTHER STEWARD!!!!!"; break;
-            case 1: reason = "YOU STARVED " + deaths + " PEOPLE IN ONE YEAR!!!\n" +
-                    FINK; break;
+        if(x){
+            reason = "HAMURABI:  I CANNOT DO WHAT YOU WISH.\n" +
+                    "GET YOURSELF ANOTHER STEWARD!!!!!";
+        }
+        else{
+            reason = "YOU STARVED " + deaths + " PEOPLE IN ONE YEAR!!!\n" +
+                    FINK;
         }
         System.out.println(reason);
         System.exit(0);
@@ -166,8 +169,10 @@ public class TempClass {
     }
 
     public boolean uprising(int population, int howManyPeopleStarved) {
-        if (deaths > .45 * population)
-            epicFail(1);
+        if (deaths > .45 * population) {
+            epicFail(false);
+        }
+
         return false;
     }
 
@@ -179,23 +184,19 @@ public class TempClass {
         return immigrants;
     }
 
-    public int harvest(int acres, int bushelsUsedAsSeed) {
+    public int harvest(int acres) {
 
-        yeild= (rand.nextInt(5) + 1);
+        yeild= (rand.nextInt(6) + 1);
         return 0;
     }
 
     public int grainEatenByRats(int i) {
-        int max=30;
-        int min=10;
-        int random= (rand.nextInt(99) + 1) ;
-        if(random <= 45){
-            random= rand.nextInt(max - min + 1) + min;
-            eaten = (stores /= random);
-            stores /= random;
 
+        if(rand.nextInt(100) <= 40){
+            eaten = (int) (i*(rand.nextDouble()/5+.1));
+            stores-=eaten;
         }
-        return 0;
+        return eaten;
     }
 
     public int newCostOfLand() {
@@ -205,19 +206,10 @@ public class TempClass {
         random= rand.nextInt(max - min + 1) + min;
         landPrice=random;
 
-        return 0;
+        return landPrice;
     }
-    int getNumber(String message) {
-        while (true) {
-            System.out.print(message);
-            try {
-                return scanner.nextInt();
-            }
-            catch (InputMismatchException e) {
-                System.out.println("\"" + scanner.next() + "\" isn't a number!");
-            }
-        }
-    }
+
+
 
 
 
